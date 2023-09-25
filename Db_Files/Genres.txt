@@ -1,0 +1,20 @@
+Genre info: 
+romantic
+book
+5
+5
+its good
+book2
+6
+2
+its not good
+Genre info: 
+drama
+book3
+7
+3
+its average
+book4
+8
+10
+no way its so good

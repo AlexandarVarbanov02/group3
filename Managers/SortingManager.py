@@ -18,82 +18,88 @@ class SortingManager:
         self.__book_collection = new_book_collection
 
     def sort_books_by_title(self, type_of_sorting):
-        result = []
-        if type_of_sorting == 'asc':
-            result = sorted(self.__book_collection, key=lambda x: x.name.lower())
-        else:
-            result = sorted(self.__book_collection, key=lambda x: x.name.lower())
+        result = sorted(self.__book_collection, key=lambda x: x.name.lower())
+        if type_of_sorting != 'ascending':
             result.reverse()
 
         return result
 
     def sort_books_by_price(self, type_of_sorting):
-        result = []
-        if type_of_sorting == 'asc':
-            result = sorted(self.__book_collection, key=lambda x: x.price)
-        else:
-            result = sorted(self.__book_collection, key=lambda x: x.price)
+        result = sorted(self.__book_collection, key=lambda x: x.price)
+        if type_of_sorting != 'ascending':
             result.reverse()
 
         return result
 
     def sort_books_by_availability(self, type_of_sorting):
-        result = []
-        if type_of_sorting == 'asc':
-            result = sorted(self.__book_collection, key=lambda x: x.availability)
-        else:
-            result = sorted(self.__book_collection, key=lambda x: x.availability)
+        result = sorted(self.__book_collection, key=lambda x: x.availability)
+        if type_of_sorting != 'ascending':
             result.reverse()
 
         return result
 
-    def filter_books_by_price(self, operation_sign, filter_price):
-        result = []
-        if operation_sign == '>':
-            for book in self.__book_collection:
-                if filter_price > book.price:
-                    result.append(book)
-        elif operation_sign == '<':
-            for book in self.__book_collection:
-                if filter_price < book.price:
-                    result.append(book)
-        elif operation_sign == '>=':
-            for book in self.__book_collection:
-                if filter_price >= book.price:
-                    result.append(book)
-        elif operation_sign == '<=':
-            for book in self.__book_collection:
-                if filter_price <= book.price:
-                    result.append(book)
-        else:
-            for book in self.__book_collection:
-                if filter_price == book.price:
-                    result.append(book)
+    def sort_books_by_rating(self, type_of_sorting):
+        result = sorted(self.__book_collection, key=lambda x: x.rating)
+        if type_of_sorting != 'ascending':
+            result.reverse()
+
         return result
 
-    def filter_books_by_availability(self, operation_sign, filter_availability):
-        result = []
-        if operation_sign == '>':
-            for book in self.__book_collection:
-                if filter_availability > book.availability:
-                    result.append(book)
-        elif operation_sign == '<':
-            for book in self.__book_collection:
-                if filter_availability < book.availability:
-                    result.append(book)
-        elif operation_sign == '>=':
-            for book in self.__book_collection:
-                if filter_availability >= book.availability:
-                    result.append(book)
-        elif operation_sign == '<=':
-            for book in self.__book_collection:
-                if filter_availability <= book.availability:
-                    result.append(book)
-        else:
-            for book in self.__book_collection:
-                if filter_availability == book.availability:
-                    result.append(book)
+    def sort_books_by_upc(self, type_of_sorting):
+        result = sorted(self.__book_collection, key=lambda x: x.upc)
+        if type_of_sorting != 'ascending':
+            result.reverse()
+
         return result
+
+
+    # def filter_books_by_price(self, operation_sign, filter_price):
+    #     result = []
+    #     if operation_sign == '>':
+    #         for book in self.__book_collection:
+    #             if filter_price > book.price:
+    #                 result.append(book)
+    #     elif operation_sign == '<':
+    #         for book in self.__book_collection:
+    #             if filter_price < book.price:
+    #                 result.append(book)
+    #     elif operation_sign == '>=':
+    #         for book in self.__book_collection:
+    #             if filter_price >= book.price:
+    #                 result.append(book)
+    #     elif operation_sign == '<=':
+    #         for book in self.__book_collection:
+    #             if filter_price <= book.price:
+    #                 result.append(book)
+    #     else:
+    #         for book in self.__book_collection:
+    #             if filter_price == book.price:
+    #                 result.append(book)
+    #     return result
+    #
+    # def filter_books_by_availability(self, operation_sign, filter_availability):
+    #     result = []
+    #     if operation_sign == '>':
+    #         for book in self.__book_collection:
+    #             if filter_availability > book.availability:
+    #                 result.append(book)
+    #     elif operation_sign == '<':
+    #         for book in self.__book_collection:
+    #             if filter_availability < book.availability:
+    #                 result.append(book)
+    #     elif operation_sign == '>=':
+    #         for book in self.__book_collection:
+    #             if filter_availability >= book.availability:
+    #                 result.append(book)
+    #     elif operation_sign == '<=':
+    #         for book in self.__book_collection:
+    #             if filter_availability <= book.availability:
+    #                 result.append(book)
+    #     else:
+    #         for book in self.__book_collection:
+    #             if filter_availability == book.availability:
+    #                 result.append(book)
+    #     return result
 
     def search_book_by_book_title(self, book_title):
         for book in self.__book_collection:

@@ -1,7 +1,8 @@
 class Book:
-    def __init__(self, name: str, genre: str, upc: str, price: float, availability: int, reviews: int,
+    def __init__(self, name: str, rating: float, genre: str, upc: str, price: float, availability: int, reviews: int,
                  description: str):
         self.__name = name
+        self.__rating = rating
         self.__genre = genre
         self.__upc = upc
         self.__price = price
@@ -27,6 +28,19 @@ class Book:
             raise ValueError("Book name cannot be empty!")
         self.__name = new_name
 
+    # getter and setter for rating
+    @property
+    def rating(self):
+        return self.__rating
+
+    @rating.setter
+    def rating(self, value):
+        if not isinstance(value, float):
+            raise TypeError("Rating can only be a float!")
+        if value < 0:
+            raise ValueError("Rating cannot be less than 0!")
+        self.__rating = value
+
     # getter and setter for upc
     @property
     def upc(self):
@@ -47,8 +61,10 @@ class Book:
 
     @price.setter
     def price(self, new_price):
-
-
+        if not isinstance(new_price, float):
+            raise TypeError("Price needs to be a float!")
+        if new_price < 0:
+            raise ValueError("Price cannot be less than 0!")
         self.__price = new_price
 
     # getter and setter for genre

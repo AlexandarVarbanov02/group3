@@ -1,9 +1,10 @@
 from Managers.ApplicationManager import ApplicationManager
-from Shared.HelperFunctions import *
-import json
+import gspread
+
 
 apm = ApplicationManager()
 apm.start_scraper()
+
 
 
 

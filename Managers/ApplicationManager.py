@@ -7,7 +7,10 @@ from Shared.HelperFunctions import *
 from Managers.SortingManager import SortingManager
 from Models.Interface import Interface
 from Models.Filter import Filter
+from Shared.File_Checker import FileChecker
 
+import gspread
+import json
 
 class ApplicationManager:
 
@@ -18,6 +21,12 @@ class ApplicationManager:
         self.__sorting_manager = SortingManager()
         self.__web_scraper = WebScraper(WEBSITE_URL)
         self.__interface = Interface()
+        self.__service_account = gspread.service_account(filename="service_account.json")
+        self.__sh = self.__service_account.open("ScrapeBooks")
+        self.__worksheet = self.__sh.worksheet("ScrappeSheet")
+        self.__headers = ["title", "rating", "genre", "upc", "price", "availability", "reviews", "description"]
+        self.__list_for_google_sheets = [self.__headers]
+        self.__output_json_file = "Db_Files/Output.json"
 
     def produce_book(self, data: list):
         self.__books.append(Book(*data))
@@ -50,6 +59,9 @@ class ApplicationManager:
             # rework Book constructor and feed it the whole list instead my_book = Book(*data_list)
             self.produce_book(element)
 
+    def __add_to_google_sheet(self, values):
+        self.__worksheet.insert_rows(values)
+
     def start_scraper(self):
         # Starts and provides parameters for webscraper
         args = self.__interface.args  # renaming for readability (input_args)
@@ -75,8 +87,18 @@ class ApplicationManager:
         if args.sort is not None:  # sort if provided
             self.run_sort(args.sort)
         else:
+
             for book in self.__books:
-                print(book, '\n')  # printing output in console
+                print(book, '\n') # printing output in console
+                self.__list_for_google_sheets.append(book.to_list())
+            self.__worksheet.clear()
+            self.__add_to_google_sheet(self.__list_for_google_sheets)
+            file_checker = FileChecker(self.__output_json_file)
+            file_checker.check_file()
+
+            with open(self.__output_json_file, 'w') as json_file:
+                json.dump(self.__list_for_google_sheets, json_file)
+
 
     def run_sort(self, criteria: list):
         self.__sorting_manager.book_collection = self.__books
@@ -103,6 +125,15 @@ class ApplicationManager:
         for lst in result:
             for book in lst:
                 print(book, '\n')
+                self.__list_for_google_sheets.append(book.to_list())
+            self.__worksheet.clear()
+            self.__add_to_google_sheet(self.__list_for_google_sheets)
+            file_checker = FileChecker(self.__output_json_file)
+            file_checker.check_file()
+
+            with open(self.__output_json_file, 'w') as json_file:
+                json.dump(self.__list_for_google_sheets, json_file)
+
             print( "--- End of sort ---")
 
         # for debugging purposes

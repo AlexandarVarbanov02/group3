@@ -82,7 +82,7 @@ class Interface:
                 self.__validate_sort()
         elif self.__args.title is not None:
             self.__args.books = 1
-        else:
+
             # validate file path, in AppM. read file, make args.books = amount of titles we search for!!!
             # self.__args.books is not None:
             # raise ValueError("Number of results needed!") remove this line later

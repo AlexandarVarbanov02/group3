@@ -18,6 +18,16 @@ class Book:
             self.__availability)
                 + "\n" + str(self.__reviews) + "\n" + self.__description + "\n")
 
+    def to_list(self):
+        return [self.__name,
+                self.__rating,
+                self.__genre,
+                self.__upc,
+                self.__price,
+                self.__availability,
+                self.__description
+                ]
+
     # getter and setter for name
     @property
     def name(self):

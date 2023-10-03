@@ -1,10 +1,11 @@
-
+# constant operators and criteria here
 
 class Filter:
-    def __init__(self, criteria, operator, value):
-        self.__criteria = criteria
-        self.__operator = operator
-        self.__value = float(value)
+    def __init__(self, data: str):
+        f_args = data.split(' ')
+        self.__criteria = f_args[0]
+        self.__operator = f_args[1]
+        self.__value = float(f_args[2])
 
     def __call__(self, book_info):
         # print(book_info, self.__criteria, self.__value)

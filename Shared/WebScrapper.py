@@ -28,6 +28,8 @@ class WebScraper:
         link = link.replace("index.html", "catalogue")
 
         while count > len(self.__data):
+            if product_page.results == product_page.scraped_books_counter:
+                break
             url = self.get_next_page(page_number)
             product_page = ProductsPage(link + url, self.__filters)
             self.__data.extend(product_page.scrape_books(count - len(self.__data)))
@@ -35,13 +37,23 @@ class WebScraper:
 
         return self.__data
 
-    def scrape_by_genre(self, genre: str):
+    def scrape_by_genre(self, count: int, genre: str):
         if not isinstance(genre, str):
             raise TypeError("Genre can only be a string!")
         if genre == "":
             raise ValueError("Genre cannot be empty!")
+        genre = genre.split(', ')
+        genre_urls = list()
         product_page = ProductsPage(self.__home_page_url + self.get_next_page(0), self.__filters)
-        return product_page.find_genre(genre)
+        for item in genre:
+            genre_urls.append(product_page.find_genre(item))
+
+        for url in genre_urls:
+            if len(self.__data) == int(count):
+                return self.__data
+            self.scrape_books(count - len(self.__data), url)
+
+        return self.__data
 
     @staticmethod
     def get_next_page(number: int):

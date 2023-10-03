@@ -5,7 +5,7 @@ from Shared.File_Checker import FileChecker
 
 class SortingManager:
     def __init__(self):
-        self.__book_collection = []
+        self.__book_collection = list()
 
     @property
     def book_collection(self):
@@ -101,23 +101,23 @@ class SortingManager:
     #                 result.append(book)
     #     return result
 
-    def search_book_by_book_title(self, book_title):
-        for book in self.__book_collection:
-            if book.name == book_title:
-                return book
+    # def search_book_by_book_title(self, book_title):
+    #     for book in self.__book_collection:
+    #         if book.name == book_title:
+    #             return book
 
-    def search_books_by_list_of_titles(self):
-        ch_file = FileChecker("Db_Files/jsonFile.json")
-        ch_file.check_file()
-        json_file = open("Db_Files/jsonFile.json", 'r')
-        json_input = json_file.read()
-        data = json.loads(json_input)
-        json_file.close()
-        result = []
-
-        for book in self.__book_collection:
-            for title in data:
-                if book.name == title:
-                    result.append(book)
-        return result
+    # def search_books_by_list_of_titles(self):
+    #     ch_file = FileChecker("Db_Files/jsonFile.json")
+    #     ch_file.check_file()
+    #     json_file = open("Db_Files/jsonFile.json", 'r')
+    #     json_input = json_file.read()
+    #     data = json.loads(json_input)
+    #     json_file.close()
+    #     result = []
+    #
+    #     for book in self.__book_collection:
+    #         for title in data:
+    #             if book.name == title:
+    #                 result.append(book)
+    #     return result
 

@@ -8,6 +8,7 @@ class Page(ABC):
         self.__page_url = page_url
         self.__html = requests.get(self.__page_url).content.decode('utf-8')
         self.__soup = BeautifulSoup(self.__html, "html.parser")
+        # add self.__filters = None
 
     @property
     def page_url(self):

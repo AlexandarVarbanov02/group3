@@ -6,8 +6,8 @@ import re
 
 class BookPage(Page):
 
-    def __init__(self, page_url: str):
-        super().__init__(page_url)
+    def __init__(self, page_url: str, filters=None):
+        super().__init__(page_url, filters)
         self.__page_content = self.get_content()
 
     def scrape_name(self):
@@ -38,7 +38,13 @@ class BookPage(Page):
         for td in table_html:
             if td.find("td"):
                 if counter in (1, 7, 11, 13):
-                    table_info.extend(re.findall(r'<td>(.*?)</td>', str(td)))
+                    info = re.findall(r'<td>(.*?)</td>', str(td))
+                    if counter == 11:
+                        info = int(re.findall(r"\d+", info[0])[0])
+                        table_info.append(info)
+                    else:
+                        table_info.extend(info)
+
                 counter += 1
         return table_info
 
@@ -49,8 +55,17 @@ class BookPage(Page):
         result.append(self.scrape_genre())
         result.extend(self.scrape_table())
         result.append(self.scrape_description())
+        if self.check_filter(result):
+            return result
+        return None
 
-        return result
+    def check_filter(self, result):
+        available = dict()
+        available["available"] = float(result[-3])
+        for f in self.filters:
+            if f.criteria == "available" and not f(available):
+                return False
+        return True
 
     def get_content(self):
         content = self.soup.find("div", class_="container-fluid page", recursive=True)
@@ -58,4 +73,5 @@ class BookPage(Page):
         content = content.find("div", class_="content", recursive=False)
         content = content.find("div", id="content_inner", recursive=False)
         content = content.find("article", class_="product_page", recursive=False)
+
         return content

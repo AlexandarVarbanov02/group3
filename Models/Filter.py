@@ -2,7 +2,7 @@
 
 class Filter:
     def __init__(self, data: str):
-        f_args = data.split(' ')
+        f_args = data.split(' ', 2)
         self.__criteria = f_args[0]
         self.__operator = f_args[1]
         self.__value = float(f_args[2])

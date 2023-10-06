@@ -2,14 +2,14 @@ import re
 
 
 class Book:
-    def __init__(self, name: str, rating: str, genre: str, upc: str, price: str, availability: str, reviews: int,
+    def __init__(self, name: str, rating: str, genre: str, upc: str, price: str, availability: int, reviews: int,
                  description: str):
         self.__name = name
         self.__rating = float(rating)
         self.__genre = genre
         self.__upc = upc
         self.__price = float(price[1:])
-        self.__availability = int(re.findall(r"\d+", availability)[0])
+        self.__availability = availability
         self.__reviews = reviews
         self.__description = description
 

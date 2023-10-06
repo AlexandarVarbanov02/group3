@@ -4,10 +4,11 @@ from abc import ABC
 
 
 class Page(ABC):
-    def __init__(self, page_url: str):
+    def __init__(self, page_url: str, filters=None):
         self.__page_url = page_url
         self.__html = requests.get(self.__page_url).content.decode('utf-8')
         self.__soup = BeautifulSoup(self.__html, "html.parser")
+        self.filters = filters
         # add self.__filters = None
 
     @property
@@ -31,3 +32,4 @@ class Page(ABC):
         if not isinstance(new_value, BeautifulSoup):
             raise TypeError("Soup is incorrect")
         self.__soup = new_value
+

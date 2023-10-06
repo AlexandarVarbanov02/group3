@@ -5,12 +5,16 @@ import re
 
 class WebScraper:
     def __init__(self, page_url: str):
+        self.__names = list()
         self.__home_page_url = page_url
         self.__data = list()
-        self.__filters = None
+        self.__filters = list()
 
     def add_filters(self, filters):
-        self.__filters = filters
+        self.__filters.extend(filters)
+
+    def add_names(self, names):
+        self.__names.extend(names)
 
     def scrape_books(self, count: int, link=""):
         if not isinstance(count, int):
@@ -22,13 +26,14 @@ class WebScraper:
             link = self.__home_page_url.replace("catalogue", str(Defines.INDEX_URL))
 
         product_page = ProductsPage(link, self.__filters)
+        product_page.add_names(self.__names)
         self.__data.extend(product_page.scrape_books(count))
 
         page_number = 1
         link = link.replace("index.html", "catalogue")
 
-        while count > len(self.__data):
-            if product_page.results == product_page.scraped_books_counter:
+        while count > len(self.__data) and count > product_page.scraped_books_counter:
+            if product_page.results == product_page.scraped_books_counter or product_page.last_page():
                 break
             url = self.get_next_page(page_number)
             product_page = ProductsPage(link + url, self.__filters)
